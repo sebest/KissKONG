@@ -56,6 +56,21 @@ void printVoltage(int32_t value, bool printName){
     }
 }
 
+//0 -> 99999 (7)
+void printPower(int32_t voltage, int32_t current, uint8_t nbDecimal, bool printName){
+    int32_t value = voltage * current;
+    if(value < 10000){
+        osd.write(SPACE);
+        if(value < 1000){
+            osd.write(SPACE);
+        }
+    }
+    osd.print(value/10000.0, nbDecimal);
+    if(printName){
+        osd.write('W');
+    }
+}
+
 //0 -> 99999 (8) poles is usually 14
 void printRpm(int32_t value, uint8_t poles, bool printName){
     value = (value*32)/poles;

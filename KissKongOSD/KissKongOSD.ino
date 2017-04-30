@@ -1292,7 +1292,12 @@ void drawLiveStats(){
     osd.setCursor(2,bottomRow);
     printVoltage(voltage, true);
     if(esc_stats.count){
-        osd.write(SPACE); printCurent(esc_stats.current, true); osd.write(SPACE); osd.write(SPACE); printMah(esc_stats.used_ah, true);
+        #if defined(DISPLAY_WATTS)
+        osd.write(SPACE); printPower(voltage, esc_stats.current, 0, true); osd.write(SPACE);
+        #else
+        osd.write(SPACE); printCurent(esc_stats.current, true); osd.write(SPACE);
+        #endif
+        osd.write(SPACE); printMah(esc_stats.used_ah, true);
         if(telemetry.armed){
             for(i=0;i<esc_stats.count;i++){
                 if(info.esc[i].type){
