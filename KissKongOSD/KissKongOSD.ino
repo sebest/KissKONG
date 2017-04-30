@@ -13,6 +13,8 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+#include "Config.h"
+
 #include "KissAndMsp.h"
 #include "MAX7456.h"
 #include "Tramp.h"
@@ -946,8 +948,8 @@ static void drawInfo(){
 
     //Angle
     osd.setCursor(1, line++);
-    osd.print(F("ROLL:")); printAngle(telemetry.angle[0], true);
-    osd.print(F(" PITCH:"));  printAngle(telemetry.angle[1], true);
+    osd.print(F("ROLL:")); printAngle(telemetry.angle[0], 1, true);
+    osd.print(F(" PITCH:"));  printAngle(telemetry.angle[1], 1, true);
 
     //RX Channels
     osd.setCursor(0, line++);
@@ -1268,7 +1270,11 @@ void drawLiveStats(){
     } else {
         printFlightMode();
     }
+    #ifdef DISPLAY_PITCH_ANGLE
+    osd.write(SPACE); osd.write(SPACE); printAngle(telemetry.angle[1], PITCH_ANGLE_NB_DECIMALS, true);
+    #else
     osd.write(SPACE); printPercentage(100 - telemetry.failsafe, true);
+    #endif
     if((telemetry.armed || !tramp) && esc_stats.count){
         osd.write(SPACE); printTemperature(esc_stats.temperature, true);
         osd.write(SPACE); printRpm(esc_stats.rpm, 14, true);

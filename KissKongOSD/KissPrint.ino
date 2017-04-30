@@ -135,7 +135,7 @@ void printTemperature(int16_t value, bool printName){
 }
 
 //-18000 -> 18000 (7)
-void printAngle(int16_t value, bool printName){
+void printAngle(int16_t value, uint8_t nbDecimal, bool printName){
     if(value >= 0){
         osd.write(SPACE);
     }
@@ -145,7 +145,7 @@ void printAngle(int16_t value, bool printName){
     if(value > -1000 && value < 1000){
         osd.write(SPACE);
     }
-    osd.print(value/100.0, 1);
+    osd.print(value/100.0, nbDecimal);
     if(printName){
         osd.write(0x87);
     }
